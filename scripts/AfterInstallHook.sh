@@ -1,0 +1,4 @@
+#!/bin/bash
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-11.0.17.0.8-2.el8_6.x86_64
+set -e
+curl -u $(/usr/local/bin/aws ssm get-parameter --name nexus_username --with-decryption --query "Parameter.Value" --output text):$(/usr/local/bin/aws ssm get-parameter --name nexus_password --with-decryption --query "Parameter.Value" --output text) -L -X GET "https://$(/usr/local/bin/aws ssm get-parameter --name nexus_url --with-decryption --query "Parameter.Value" --output text)/service/rest/v1/search/assets/download?sort=version&repository=maven-snapshots&maven.groupId=Springboard-RuleEngine-Group&maven.artifactId=Springboard-RuleEngine-Artifact&maven.extension=jar" -H "accept: application/json" --output $(/usr/local/bin/aws ssm get-parameter --name upload_directory --with-decryption --query "Parameter.Value" --output text)/rule_engine.jar
